@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AutoHelp</string>
+    <string name="user_name">User name</string>
+    <string name="edit_name">Edit name</string>
+    <string name="description">Description</string>
+    <string name="repaired">Repaired</string>
+    <string name="data">time</string>
+    <string name="name">Name</string>
+    <string name="tel">tel.</string>
+</resources>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,14 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail2548sov.autohelp.SingltonUser.listUsers
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.fragnent_user.view.*
 import kotlinx.android.synthetic.main.item_user.view.*
 import java.security.AccessController
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentList : Fragment() {
 
 
     val mUserAdapter: UserAdapter = UserAdapter(listUsers)
     lateinit var myRecyclerView: RecyclerView
+
 
 
     override fun onCreateView(
@@ -68,8 +73,7 @@ class FragmentList : Fragment() {
     }
 
 
-    inner class UserAdapter(private val points: ArrayList<DataUser>) :
-        RecyclerView.Adapter<UserHolder>() {
+    inner class UserAdapter(private val dataUsers: ArrayList<DataUser>) : RecyclerView.Adapter<UserHolder>() {
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
@@ -78,11 +82,14 @@ class FragmentList : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return points.size
+            return dataUsers.size
         }
 
         override fun onBindViewHolder(holder: UserHolder, position: Int) {
-            holder.bind(position, points)
+
+            var dataUser = listUsers[position]
+            Log.d ("qqq", "$position")
+            holder.bind(dataUser)
             //var viev: View = holder.itemView
 
         }
@@ -90,11 +97,28 @@ class FragmentList : Fragment() {
 
     }
 
-    inner class UserHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class UserHolder(val view: View) : RecyclerView.ViewHolder(view), OnClickListener
+    {
 
-        fun bind(position: Int, points: ArrayList<DataUser>) {
-            view.imageView2.visibility = if (points[position].isRepair) View.VISIBLE else View.GONE
+        init {
 
+            view.setOnClickListener(this)
+        }
+
+        lateinit var mdataUser: DataUser
+
+        fun bind(dataUser:DataUser) {
+            mdataUser = dataUser
+            view.imageView2.visibility = if (mdataUser.isRepair) View.VISIBLE else View.GONE
+            view.item_data.text = Date().toString()
+            view.item_list.text = "User name #${mdataUser.mName}"
+
+        }
+
+        override fun onClick(v: View?) {
+            val intent = ActivitiUser.newIntent(context, mdataUser.mId)
+            startActivity(intent)
+            Toast.makeText(context,"Hi!!!",Toast.LENGTH_SHORT).show()
         }
     }
 

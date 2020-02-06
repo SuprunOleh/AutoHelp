@@ -13,15 +13,15 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragnent_user.view.*
 import java.util.*
 
-class FragmentUser : Fragment() {
+class FragmentUser : Fragment(), CompoundButton.OnCheckedChangeListener {
 
     companion object {
         val ARG_USER_ID = "user_id_com.gmail2548sov.autohelp"
 
         fun newInstanse(userId: UUID): Fragment {
-            var arg = Bundle()
+            val arg = Bundle()
             arg.putSerializable(ARG_USER_ID, userId)
-            var fragment = FragmentUser()
+            val fragment = FragmentUser()
             fragment.arguments = arg
             return fragment
         }
@@ -38,12 +38,38 @@ class FragmentUser : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragnent_user, container, false)
-        var id = arguments?.getSerializable(ARG_USER_ID) as UUID
-        var dataUser = SingltonUser.getId(id)
+        val id = arguments?.getSerializable(ARG_USER_ID) as UUID
+        val dataUser = SingltonUser.getId(id)
         view.title_datalied.text = dataUser?.mName ?: ""
-        var mIsRepair: Boolean = dataUser?.isRepair ?: false
+        val mIsRepair: Boolean = dataUser?.isRepair ?: false
         view.crime_solved.isChecked = mIsRepair
+
+        view.crime_solved.setOnCheckedChangeListener(this)
+
         return view
+    }
+
+
+
+
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        val id = arguments?.getSerializable(ARG_USER_ID) as UUID
+
+
+
+        when (buttonView!!.isChecked) {
+
+            true -> {
+                SingltonUser.getId(id)?.isRepair = true
+            }
+            false -> {
+                SingltonUser.getId(id)?.isRepair = false
+            }
+
+        }
+
+        //myIntent()
     }
 
 

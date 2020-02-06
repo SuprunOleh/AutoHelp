@@ -7,4 +7,6 @@
     <string name="data">time</string>
     <string name="name">Name</string>
     <string name="tel">tel.</string>
+    <item name="text" type="id"/>
+
 </resources>

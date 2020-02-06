@@ -29,6 +29,8 @@ class FragmentList : Fragment() {
 
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +54,7 @@ class FragmentList : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        updateUI()
         //mUserAdapter.notifyDataSetChanged()
     }
 
@@ -87,8 +90,8 @@ class FragmentList : Fragment() {
 
         override fun onBindViewHolder(holder: UserHolder, position: Int) {
 
-            var dataUser = listUsers[position]
-            Log.d ("qqq", "$position")
+            val dataUser = listUsers[position]
+            Log.d ("eee", "${position}2")
             holder.bind(dataUser)
             //var viev: View = holder.itemView
 
@@ -107,16 +110,19 @@ class FragmentList : Fragment() {
 
         lateinit var mdataUser: DataUser
 
+
+
         fun bind(dataUser:DataUser) {
             mdataUser = dataUser
             view.imageView2.visibility = if (mdataUser.isRepair) View.VISIBLE else View.GONE
             view.item_data.text = Date().toString()
-            view.item_list.text = "User name #${mdataUser.mName}"
+            val name = "${R.string.user_name} #${mdataUser.mName}"
+            view.item_list.text = name
 
         }
 
         override fun onClick(v: View?) {
-            val intent = ActivitiUser.newIntent(context, mdataUser.mId)
+            val intent = ActivityUserPager.newIntent(context, mdataUser.mId)
             startActivity(intent)
             Toast.makeText(context,"Hi!!!",Toast.LENGTH_SHORT).show()
         }

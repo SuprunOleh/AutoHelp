@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import kotlinx.android.synthetic.main.activiti_user_page.*
 import java.util.*
 
-class ActivityUserPager: AppCompatActivity() {
+class ActivityUserPager : AppCompatActivity() {
 
     companion object {
 
@@ -22,7 +22,7 @@ class ActivityUserPager: AppCompatActivity() {
         }
     }
 
-    val dataUsers: List <DataUser> =  SingltonUser.listUsers
+    val dataUsers: List<DataUser> = SingltonUser.listUsers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,16 +48,15 @@ class ActivityUserPager: AppCompatActivity() {
 
         })
 
-        for (i in 0..dataUsers.size){
+        for (i in 0..dataUsers.size) {
 
-            if (dataUsers[i].mId == userId) {pager_user.setCurrentItem(i)
-            break}
-
+            if (dataUsers[i].mId == userId) {
+                pager_user.setCurrentItem(i)
+                break
+            }
 
 
         }
-
-
 
 
     }

@@ -12,6 +12,7 @@ object SingltonUser {
             var s = if (i % 2 == 0) true else false
             var user = DataUser(UUID.randomUUID(), "${i + 1}", "+380936377778", "description", Date(), s)
             listUsers.add(user)
+            Log.d ("456", "${user.mId.toString()}")
         }
     }
 

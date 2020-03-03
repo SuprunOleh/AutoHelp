@@ -1,6 +1,7 @@
 package com.gmail2548sov.autohelp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,9 +16,11 @@ import java.util.*
 
 class FragmentUser : Fragment(), CompoundButton.OnCheckedChangeListener {
 
+    var mCallBack: Callbacks? = null
+
+
     companion object {
         val ARG_USER_ID = "user_id_com.gmail2548sov.autohelp"
-
         fun newInstanse(userId: UUID): Fragment {
             val arg = Bundle()
             arg.putSerializable(ARG_USER_ID, userId)
@@ -25,8 +28,12 @@ class FragmentUser : Fragment(), CompoundButton.OnCheckedChangeListener {
             fragment.arguments = arg
             return fragment
         }
-
     }
+
+    interface Callbacks {
+        fun onUserUpdated(dataUser: DataUser?)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +56,18 @@ class FragmentUser : Fragment(), CompoundButton.OnCheckedChangeListener {
         return view
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mCallBack = context as Callbacks
+    }
 
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        mCallBack = null
+    }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         val id = arguments?.getSerializable(ARG_USER_ID) as UUID
-
-
 
         when (buttonView!!.isChecked) {
 
@@ -66,10 +77,9 @@ class FragmentUser : Fragment(), CompoundButton.OnCheckedChangeListener {
             false -> {
                 SingltonUser.getId(id)?.isRepair = false
             }
-
         }
-
-        //myIntent()
+        mCallBack?.onUserUpdated(SingltonUser.getId(id))
+        Log.d ("up333", "up333")
     }
 
 

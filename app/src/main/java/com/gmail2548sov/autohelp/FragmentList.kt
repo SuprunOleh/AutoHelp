@@ -17,14 +17,22 @@ import kotlinx.android.synthetic.main.fragnent_user.view.*
 import kotlinx.android.synthetic.main.item_user.view.*
 import java.security.AccessController
 import java.util.*
+import javax.security.auth.callback.Callback
 import kotlin.collections.ArrayList
 
 class FragmentList : Fragment() {
 
 
-    val mUserAdapter: UserAdapter = UserAdapter(listUsers)
+    lateinit var mUserAdapter: UserAdapter
     lateinit var myRecyclerView: RecyclerView
+    var mCallBack: Callbacks? = null
 
+
+
+
+    interface Callbacks {
+        fun onUsersSelected(dataUser: DataUser)
+    }
 
 
 
@@ -36,6 +44,7 @@ class FragmentList : Fragment() {
     ): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_list, container, false)
+        mUserAdapter = UserAdapter(listUsers)
         myRecyclerView = view.myRecyclerView
         myRecyclerView.layoutManager = LinearLayoutManager(context)
         myRecyclerView.setHasFixedSize(true)
@@ -44,7 +53,7 @@ class FragmentList : Fragment() {
     }
 
     fun updateUI() {
-
+        //mUserAdapter = UserAdapter(listUsers)
         myRecyclerView.adapter = mUserAdapter
         mUserAdapter.notifyDataSetChanged()
    }
@@ -80,7 +89,7 @@ class FragmentList : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
+        mCallBack = context as Callbacks
     }
 
 
@@ -92,6 +101,7 @@ class FragmentList : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mCallBack = null
 
     }
 
@@ -142,9 +152,14 @@ class FragmentList : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            val intent = ActivityUserPager.newIntent(context, mdataUser.mId)
-            startActivity(intent)
-            Toast.makeText(context,"Hi!!!",Toast.LENGTH_SHORT).show()
+       //    val intent = ActivityUserPager.newIntent(context, mdataUser.mId)
+//            startActivity(intent)
+//            Toast.makeText(context,"Hi!!!",Toast.LENGTH_SHORT).show()
+
+            mCallBack?.onUsersSelected(mdataUser)
+
+
+
         }
     }
 

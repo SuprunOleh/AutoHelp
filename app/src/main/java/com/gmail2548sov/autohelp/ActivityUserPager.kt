@@ -3,13 +3,14 @@ package com.gmail2548sov.autohelp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import kotlinx.android.synthetic.main.activiti_user_page.*
 import java.util.*
 
-class ActivityUserPager : AppCompatActivity() {
+class ActivityUserPager : AppCompatActivity(), FragmentUser.Callbacks {
 
     companion object {
 
@@ -22,12 +23,33 @@ class ActivityUserPager : AppCompatActivity() {
         }
     }
 
+    override fun onUserUpdated(dataUser: DataUser?) {
+
+
+
+//        Log.d ("up333", "up333")
+//        val listFragment =
+//            supportFragmentManager.findFragmentById(R.id.fragment_container) as FragmentList
+//        listFragment.updateUI()
+    }
+
+
+
     val dataUsers: List<DataUser> = SingltonUser.listUsers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activiti_user_page)
+
+
         val userId = intent.getSerializableExtra(EXTRA_ID) as UUID
+
+
+
+
+
+
+
 
         val pagerUser = pager_user
         val fragmentManager = supportFragmentManager
